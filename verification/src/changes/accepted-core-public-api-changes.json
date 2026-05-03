@@ -23,5 +23,14 @@
                 "METHOD_REMOVED"
             ]
         }
+    ],
+    "Why on earth is this even an issue?": [
+        {
+            "type": "com.sk89q.worldedit.world.registry.BlockMaterial",
+            "member": "Method com.sk89q.worldedit.world.registry.BlockMaterial.isFullCube()",
+            "changes": [
+                "METHOD_ABSTRACT_NOW_DEFAULT"
+            ]
+        }
     ]
 }
