@@ -1,7 +1,7 @@
-# WorldEdit - Folia / Canvas command fix
+# WorldEdit - Folia / Canvas adaptation
 
-Unofficial fork of [WorldEdit by EngineHub](https://github.com/EngineHub/WorldEdit), patched to fix a small set of
-commands that crashed under **[Folia](https://github.com/PaperMC/Folia)** region threading (and its
+Unofficial fork of [WorldEdit by EngineHub](https://github.com/EngineHub/WorldEdit), adapted to run cleanly under
+**[Folia](https://github.com/PaperMC/Folia)** region threading (and its
 [Canvas](https://github.com/CraftCanvasMC/Canvas) fork) on modern Paper builds, including **Minecraft 26.1.2**.
 
 **This is not a full Folia rewrite.** WorldEdit itself already runs fine on Folia/Canvas for normal selection and
