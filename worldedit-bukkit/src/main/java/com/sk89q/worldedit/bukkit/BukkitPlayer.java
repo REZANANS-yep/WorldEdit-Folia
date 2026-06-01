@@ -150,7 +150,11 @@ public class BukkitPlayer extends AbstractPlayerActor {
         Location location = new Location(player.getWorld(), pos.x(), pos.y(),
                 pos.z(), yaw, pitch);
         if (WorldEditPlugin.getInstance().isFolia()) {
-            var _  = PaperLib.teleportAsync(player, location);
+            // Canvas/Folia region threading rejects the synchronous teleport that the bundled
+            // PaperLib falls back to when it cannot parse a two-digit Minecraft version (e.g. 26.x),
+            // throwing "Must use teleportAsync while in region threading". Call the Paper async API
+            // directly to stay region-thread-safe.
+            var _  = player.teleportAsync(location);
             return true;
         } else {
             return player.teleport(location);
@@ -232,7 +236,10 @@ public class BukkitPlayer extends AbstractPlayerActor {
     @Override
     public boolean setLocation(com.sk89q.worldedit.util.Location location) {
         if (WorldEditPlugin.getInstance().isFolia()) {
-            var _  = PaperLib.teleportAsync(player, BukkitAdapter.adapt(location));
+            // Canvas/Folia region threading rejects the synchronous teleport that the bundled
+            // PaperLib falls back to when it cannot parse a two-digit Minecraft version (e.g. 26.x).
+            // Call the Paper async API directly to stay region-thread-safe.
+            var _  = player.teleportAsync(BukkitAdapter.adapt(location));
             return true;
         } else {
             return player.teleport(BukkitAdapter.adapt(location));

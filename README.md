@@ -1,3 +1,42 @@
+# WorldEdit - Folia / Canvas command fix
+
+Unofficial fork of [WorldEdit by EngineHub](https://github.com/EngineHub/WorldEdit), patched to fix a small set of
+commands that crashed under **[Folia](https://github.com/PaperMC/Folia)** region threading (and its
+[Canvas](https://github.com/CraftCanvasMC/Canvas) fork) on modern Paper builds, including **Minecraft 26.1.2**.
+
+**This is not a full Folia rewrite.** WorldEdit itself already runs fine on Folia/Canvas for normal selection and
+editing work. The only thing broken was player teleportation: the navigation commands `/up`, `/jumpto`, `/thru`,
+`/ascend`, `/descend` and `/unstuck` threw `UnsupportedOperationException: Must use teleportAsync while in region
+threading` and failed.
+
+**What this fork changes (and only this):** in `worldedit-bukkit` the `BukkitPlayer` teleport paths
+(`trySetPosition` and `setLocation`) took a Folia branch that called the bundled `PaperLib.teleportAsync`. That
+bundled PaperLib cannot parse a two-digit Minecraft major version (`26.x`) and silently falls back to a synchronous
+`entity.teleport`, which Folia/Canvas reject from a region thread. Both branches now call Paper's native
+`player.teleportAsync(...)` directly - region-thread-safe, and it also works on plain Paper. Two lines of behavior,
+nothing else in WorldEdit is touched.
+
+**Actively developed and supported** by the [suzeren.org](https://suzeren.org) network, where it runs in production
+on a Canvas (Folia) backend. Branch: `folia`, built against the same Java 21 toolchain as upstream (GraalVM 25 runtime).
+
+<p align="center">
+  <a href="https://pterohost.com">
+    <img src="https://pterohost.com/images/branding/logo-sm.webp" alt="Pterohost - game server hosting with Folia and Paper support" height="64">
+  </a>
+</p>
+<p align="center">
+  <b>Этот форк развивается и тестируется на <a href="https://pterohost.com">Pterohost</a></b><br>
+  Игровой хостинг с нативной поддержкой Folia и Paper, мгновенный деплой и удобная панель управления.<br>
+  <i>Developed and battle tested on <a href="https://pterohost.com">Pterohost</a> - game server hosting with first class Folia and Paper support.</i>
+</p>
+<p align="center">
+  <a href="https://discord.gg/BayzJzArBa">Pterohost Discord</a>
+  &nbsp;|&nbsp;
+  <a href="https://suzeren.org">suzeren.org</a>
+</p>
+
+---
+
 <h1>
     <img src="worldedit-logo.svg" alt="WorldEdit" width="400" /> 
 </h1>
